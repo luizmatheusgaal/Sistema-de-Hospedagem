@@ -14,6 +14,7 @@ Aplicação desktop em **Python + CustomTkinter** para gestão de pousada, com c
 ## Requisitos
 - Python 3.9+
 - MySQL (com usuário e banco configurados)
+- Dependências Python listadas em `requirements.txt`
 
 ## Instalação
 ```bash
