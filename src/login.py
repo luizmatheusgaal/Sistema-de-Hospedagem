@@ -4,6 +4,7 @@ import customtkinter as ctk
 
 from service import LodgingService
 from interface.ui_login import LoginScreen
+from interface.ui_main import MainScreen
 
 
 def main():
@@ -14,12 +15,20 @@ def main():
     app.update_idletasks()
     app.after(0, lambda: app.state("zoomed"))
 
+    service = LodgingService()
+
     def show_login():
         login_screen = LoginScreen(app, open_main_screen)
         login_screen.pack(fill="both", expand=True)
 
     def open_main_screen():
-        pass
+        main_screen = MainScreen(app, service, show_login)
+        main_screen.pack(fill="both", expand=True)
+        app.protocol("WM_DELETE_WINDOW", confirm_exit)
+
+    def confirm_exit():
+        if messagebox.askyesno("Sair", "Deseja sair?"):
+            app.destroy()
 
     show_login()
 
