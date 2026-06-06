@@ -50,6 +50,7 @@ class MainScreen(ctk.CTkFrame):
         self.consumption_frame.pack(fill="x")
 
         self.check_out_frame = CheckoutFrame(actions_frame, self._handle_check_out)
+        self.check_out_frame.pack(fill="x")
         consumptions_button = ctk.CTkButton(
             actions_frame,
             text="Cadastrar insumo",
