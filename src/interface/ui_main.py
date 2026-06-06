@@ -6,6 +6,8 @@ import customtkinter as ctk
 
 from interface.ui_checkin import CheckinFrame
 from interface.ui_checkout import CheckoutFrame
+from interface.ui_consumption import ConsumptionFrame
+from interface.ui_consumption_window import ConsumptionWindow
 from interface.ui_status import StatusFrame
 
 
@@ -42,6 +44,18 @@ class MainScreen(ctk.CTkFrame):
 
         self.check_in_frame = CheckinFrame(actions_frame, self._handle_check_in)
         self.check_in_frame.pack(fill="x")
+        self.consumption_frame = ConsumptionFrame(
+            actions_frame, self.service.consumptions, self._handle_consumption
+        )
+        self.consumption_frame.pack(fill="x")
+
+        self.check_out_frame = CheckoutFrame(actions_frame, self._handle_check_out)
+        consumptions_button = ctk.CTkButton(
+            actions_frame,
+            text="Cadastrar insumo",
+            command=self._open_consumptions,
+        )
+        consumptions_button.pack(fill="x", padx=15, pady=(0, 5))
 
         close_day_button = ctk.CTkButton(
             actions_frame,
@@ -54,6 +68,7 @@ class MainScreen(ctk.CTkFrame):
 
         self.status_frame = StatusFrame(content_frame)
         self.status_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        self._consumptions_window = None
         self.refresh_menus()
         self.refresh_status()
         self.log_message("Sistema iniciado. Pronto para operações.")
@@ -70,6 +85,8 @@ class MainScreen(ctk.CTkFrame):
             occupied_rooms = ["-"]
 
         self.check_in_frame.set_available_rooms(available_rooms)
+        self.consumption_frame.set_occupied_rooms(occupied_rooms)
+        self.consumption_frame.set_items(list(self.service.consumptions.keys()))
         self.check_out_frame.set_occupied_rooms(occupied_rooms)
 
     def refresh_status(self):
@@ -116,6 +133,28 @@ class MainScreen(ctk.CTkFrame):
         self.refresh_menus()
         self.refresh_status()
 
+    def _handle_consumption(self, room_text, item, quantity_text):
+        if room_text == "-":
+            messagebox.showwarning("Dados incompletos", "Selecione um quarto ocupado.")
+            return
+        if not quantity_text.isdigit():
+            messagebox.showwarning("Quantidade inválida", "Informe uma quantidade válida.")
+            return
+
+        room_number = int(room_text)
+        quantity = int(quantity_text)
+        try:
+            amount = self.service.record_consumption(room_number, item, quantity)
+        except ValueError as exc:
+            messagebox.showwarning("Consumo", str(exc))
+            return
+
+        self.consumption_frame.clear_quantity()
+        self.log_message(
+            f"Consumo registrado no quarto {room_number}: {item} x{quantity} = R$ {amount:.2f}."
+        )
+        self.refresh_status()
+
     def _handle_check_out(self, room_text):
         if room_text == "-":
             messagebox.showwarning("Sem ocupação", "Não há quartos ocupados.")
@@ -134,6 +173,16 @@ class MainScreen(ctk.CTkFrame):
         self.refresh_menus()
         self.refresh_status()
 
+    def _open_consumptions(self):
+        if self._consumptions_window and self._consumptions_window.winfo_exists():
+            self._consumptions_window.focus()
+            return
+
+        self._consumptions_window = ConsumptionWindow(
+            self.master, self.service, self._refresh_after_consumption
+        )
+    def _refresh_after_consumption(self):
+        self.refresh_menus()
     def _refresh_after_room(self):
         self.refresh_menus()
         self.refresh_status()
