@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 import customtkinter as ctk
 
 from interface.ui_checkin import CheckinFrame
+from interface.ui_checkout import CheckoutFrame
 from interface.ui_status import StatusFrame
 
 
@@ -69,6 +70,7 @@ class MainScreen(ctk.CTkFrame):
             occupied_rooms = ["-"]
 
         self.check_in_frame.set_available_rooms(available_rooms)
+        self.check_out_frame.set_occupied_rooms(occupied_rooms)
 
     def refresh_status(self):
         lines = [
