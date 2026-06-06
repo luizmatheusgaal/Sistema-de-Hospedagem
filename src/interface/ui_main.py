@@ -8,6 +8,8 @@ from interface.ui_checkin import CheckinFrame
 from interface.ui_checkout import CheckoutFrame
 from interface.ui_consumption import ConsumptionFrame
 from interface.ui_consumption_window import ConsumptionWindow
+from interface.ui_room_types_window import RoomTypesWindow
+from interface.ui_rooms_window import RoomsWindow
 from interface.ui_status import StatusFrame
 
 
@@ -51,6 +53,20 @@ class MainScreen(ctk.CTkFrame):
 
         self.check_out_frame = CheckoutFrame(actions_frame, self._handle_check_out)
         self.check_out_frame.pack(fill="x")
+        room_types_button = ctk.CTkButton(
+            actions_frame,
+            text="Gerenciar tipos de quarto",
+            command=self._open_room_types,
+        )
+        room_types_button.pack(fill="x", padx=15, pady=(0, 5))
+
+        rooms_button = ctk.CTkButton(
+            actions_frame,
+            text="Cadastrar quarto",
+            command=self._open_rooms,
+        )
+        rooms_button.pack(fill="x", padx=15, pady=(0, 5))
+
         consumptions_button = ctk.CTkButton(
             actions_frame,
             text="Cadastrar insumo",
@@ -69,7 +85,10 @@ class MainScreen(ctk.CTkFrame):
 
         self.status_frame = StatusFrame(content_frame)
         self.status_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        self._room_types_window = None
+        self._rooms_window = None
         self._consumptions_window = None
+
         self.refresh_menus()
         self.refresh_status()
         self.log_message("Sistema iniciado. Pronto para operações.")
@@ -174,6 +193,22 @@ class MainScreen(ctk.CTkFrame):
         self.refresh_menus()
         self.refresh_status()
 
+    def _open_room_types(self):
+        if self._room_types_window and self._room_types_window.winfo_exists():
+            self._room_types_window.focus()
+            return
+
+        self._room_types_window = RoomTypesWindow(
+            self.master, self.service, self.refresh_status
+        )
+
+    def _open_rooms(self):
+        if self._rooms_window and self._rooms_window.winfo_exists():
+            self._rooms_window.focus()
+            return
+
+        self._rooms_window = RoomsWindow(self.master, self.service, self._refresh_after_room)
+
     def _open_consumptions(self):
         if self._consumptions_window and self._consumptions_window.winfo_exists():
             self._consumptions_window.focus()
@@ -182,8 +217,10 @@ class MainScreen(ctk.CTkFrame):
         self._consumptions_window = ConsumptionWindow(
             self.master, self.service, self._refresh_after_consumption
         )
+
     def _refresh_after_consumption(self):
         self.refresh_menus()
+
     def _refresh_after_room(self):
         self.refresh_menus()
         self.refresh_status()
