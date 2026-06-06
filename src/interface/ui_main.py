@@ -54,7 +54,8 @@ class MainScreen(ctk.CTkFrame):
         self.status_frame = StatusFrame(content_frame)
         self.status_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
         self.refresh_menus()
-        self.status_frame.append_log("Sistema iniciado. Pronto para operações.")
+        self.refresh_status()
+        self.log_message("Sistema iniciado. Pronto para operações.")
 
     def refresh_menus(self):
         available_rooms = [
@@ -68,6 +69,27 @@ class MainScreen(ctk.CTkFrame):
             occupied_rooms = ["-"]
 
         self.check_in_frame.set_available_rooms(available_rooms)
+
+    def refresh_status(self):
+        lines = [
+            f"Faturamento do dia: R$ {self.service.daily_revenue:.2f}",
+            "",
+            "Status dos quartos:",
+        ]
+        for room_number in self.service.rooms:
+            if room_number in self.service.occupied:
+                guest_name = self.service.occupied[room_number]["guest_name"]
+                room_type = self.service.get_room_type(room_number)
+                lines.append(
+                    f"Quarto {room_number} ({room_type}): OCUPADO ({guest_name})"
+                )
+            else:
+                room_type = self.service.get_room_type(room_number)
+                lines.append(f"Quarto {room_number} ({room_type}): LIVRE")
+        self.status_frame.update_status("\n".join(lines) + "\n")
+
+    def log_message(self, message):
+        self.status_frame.append_log(message)
 
     def _handle_check_in(self, guest_name, stay_days_text, room_text):
         if room_text == "-":
@@ -86,10 +108,11 @@ class MainScreen(ctk.CTkFrame):
             return
 
         self.check_in_frame.clear()
-        self.status_frame.append_log(
+        self.log_message(
             f"Check-in realizado: {guest_name} no quarto {room_number} ({reservation_code})."
         )
         self.refresh_menus()
+        self.refresh_status()
 
     def _handle_check_out(self, room_text):
         if room_text == "-":
@@ -103,13 +126,15 @@ class MainScreen(ctk.CTkFrame):
             messagebox.showwarning("Check-out", str(exc))
             return
 
-        self.status_frame.append_log(
+        self.log_message(
             f"Check-out realizado: {stay_data['guest_name']} (quarto {room_number}) - Total R$ {total:.2f}."
         )
         self.refresh_menus()
+        self.refresh_status()
 
     def _refresh_after_room(self):
         self.refresh_menus()
+        self.refresh_status()
 
     def close_day(self):
         if not messagebox.askyesno("Encerrar expediente", "Deseja sair?"):
