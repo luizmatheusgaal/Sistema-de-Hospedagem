@@ -8,6 +8,7 @@ from interface.ui_checkin import CheckinFrame
 from interface.ui_checkout import CheckoutFrame
 from interface.ui_consumption import ConsumptionFrame
 from interface.ui_consumption_window import ConsumptionWindow
+from interface.ui_history_window import HistoryWindow
 from interface.ui_room_types_window import RoomTypesWindow
 from interface.ui_rooms_window import RoomsWindow
 from interface.ui_status import StatusFrame
@@ -53,6 +54,14 @@ class MainScreen(ctk.CTkFrame):
 
         self.check_out_frame = CheckoutFrame(actions_frame, self._handle_check_out)
         self.check_out_frame.pack(fill="x")
+
+        history_button = ctk.CTkButton(
+            actions_frame,
+            text="Abrir histórico por data",
+            command=self._open_history,
+        )
+        history_button.pack(fill="x", padx=15, pady=(10, 5))
+
         room_types_button = ctk.CTkButton(
             actions_frame,
             text="Gerenciar tipos de quarto",
@@ -85,6 +94,7 @@ class MainScreen(ctk.CTkFrame):
 
         self.status_frame = StatusFrame(content_frame)
         self.status_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        self._history_window = None
         self._room_types_window = None
         self._rooms_window = None
         self._consumptions_window = None
@@ -193,6 +203,13 @@ class MainScreen(ctk.CTkFrame):
         self.refresh_menus()
         self.refresh_status()
 
+    def _open_history(self):
+        if self._history_window and self._history_window.winfo_exists():
+            self._history_window.focus()
+            return
+
+        self._history_window = HistoryWindow(self.master, self.service)
+
     def _open_room_types(self):
         if self._room_types_window and self._room_types_window.winfo_exists():
             self._room_types_window.focus()
@@ -226,8 +243,24 @@ class MainScreen(ctk.CTkFrame):
         self.refresh_status()
 
     def close_day(self):
+        data = datetime.now().strftime("%Y%m%d_%H%M")
+        default_report_path = os.path.join(
+            os.path.dirname(__file__), f"../report/relatorio_fechamento_{data}.txt"
+        )
         if not messagebox.askyesno("Encerrar expediente", "Deseja sair?"):
             return
 
+        report_path = filedialog.asksaveasfilename(
+            defaultextension=".txt",
+            filetypes=[("Relatório", "*.txt")],
+            initialfile=os.path.basename(default_report_path),
+            initialdir=os.path.dirname(default_report_path),
+            title="Salvar relatório",
+        )
+        if not report_path:
+            return
+
+        self.service.generate_report(report_path)
+        messagebox.showinfo("Fechamento concluído", f"Relatório salvo em {report_path}")
         self.destroy()
         self.on_logout()
