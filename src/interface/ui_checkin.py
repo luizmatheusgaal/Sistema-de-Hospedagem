@@ -12,7 +12,7 @@ class CheckinFrame(ctk.CTkFrame):
         self.guest_name_entry = ctk.CTkEntry(self, placeholder_text="👤 Nome do hóspede")
         self.guest_name_entry.pack(fill="x", padx=15, pady=5)
 
-        self.stay_days_entry = ctk.CTkEntry(self, placeholder_text="Dias de estadia")
+        self.stay_days_entry = ctk.CTkEntry(self, placeholder_text="📅 Dias de estadia")
         self.stay_days_entry.pack(fill="x", padx=15, pady=5)
 
         self.room_var = ctk.StringVar(value="-")

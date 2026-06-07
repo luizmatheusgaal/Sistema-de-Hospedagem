@@ -64,7 +64,7 @@ class MainScreen(ctk.CTkFrame):
 
         room_types_button = ctk.CTkButton(
             actions_frame,
-            text="🛌 Tipos de Quarto",
+            text="🛏️ Tipos de Quarto",
             command=self._open_room_types,
         )
         room_types_button.pack(fill="x", padx=15, pady=(20, 5))
@@ -78,7 +78,7 @@ class MainScreen(ctk.CTkFrame):
 
         consumptions_button = ctk.CTkButton(
             actions_frame,
-            text="📦 Cadastrar Insumo",
+            text="🍽️ Cadastrar Insumo",
             command=self._open_consumptions,
         )
         consumptions_button.pack(fill="x", padx=15, pady=(0, 5))
