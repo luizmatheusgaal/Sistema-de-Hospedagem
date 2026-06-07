@@ -6,7 +6,7 @@ class ConsumptionFrame(ctk.CTkFrame):
         super().__init__(master)
         self.on_consumption = on_consumption
 
-        label = ctk.CTkLabel(self, text="Consumo", font=("Arial", 18, "bold"))
+        label = ctk.CTkLabel(self, text="🍔 Consumo", font=("Arial", 18, "bold"))
         label.pack(anchor="w", padx=15, pady=(15, 5))
 
         self.room_var = ctk.StringVar(value="-")

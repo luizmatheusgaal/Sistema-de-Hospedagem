@@ -67,7 +67,7 @@ class MainScreen(ctk.CTkFrame):
             text="🛏️ Tipos de Quarto",
             command=self._open_room_types,
         )
-        room_types_button.pack(fill="x", padx=15, pady=(0, 5))
+        room_types_button.pack(fill="x", padx=15, pady=(20, 5))
 
         rooms_button = ctk.CTkButton(
             actions_frame,

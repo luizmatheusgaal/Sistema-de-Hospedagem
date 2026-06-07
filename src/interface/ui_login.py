@@ -21,7 +21,6 @@ class LoginScreen(ctk.CTkFrame):
             self, text="🏨 Acesso Administrativo",
             font=("Arial", 20)
             )
-
         subtitle.pack(pady=(0,20))
 
         self.username_entry = ctk.CTkEntry(self, placeholder_text="Usuário")
