@@ -57,35 +57,35 @@ class MainScreen(ctk.CTkFrame):
 
         history_button = ctk.CTkButton(
             actions_frame,
-            text="Abrir histórico por data",
+            text="📊 Histórico",
             command=self._open_history,
         )
         history_button.pack(fill="x", padx=15, pady=(10, 5))
 
         room_types_button = ctk.CTkButton(
             actions_frame,
-            text="Gerenciar tipos de quarto",
+            text="🛌 Tipos de Quarto",
             command=self._open_room_types,
         )
-        room_types_button.pack(fill="x", padx=15, pady=(0, 5))
+        room_types_button.pack(fill="x", padx=15, pady=(20, 5))
 
         rooms_button = ctk.CTkButton(
             actions_frame,
-            text="Cadastrar quarto",
+            text="🏠 Cadastrar Quarto",
             command=self._open_rooms,
         )
         rooms_button.pack(fill="x", padx=15, pady=(0, 5))
 
         consumptions_button = ctk.CTkButton(
             actions_frame,
-            text="Cadastrar insumo",
+            text="📦 Cadastrar Insumo",
             command=self._open_consumptions,
         )
         consumptions_button.pack(fill="x", padx=15, pady=(0, 5))
 
         close_day_button = ctk.CTkButton(
             actions_frame,
-            text="Encerrar expediente",
+            text="🔴 Encerrar expediente",
             fg_color="#B23A3A",
             hover_color="#8F2F2F",
             command=self.close_day,

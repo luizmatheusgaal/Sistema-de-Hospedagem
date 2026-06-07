@@ -6,7 +6,7 @@ class CheckoutFrame(ctk.CTkFrame):
         super().__init__(master)
         self.on_check_out = on_check_out
 
-        label = ctk.CTkLabel(self, text="Check-out", font=("Arial", 18, "bold"))
+        label = ctk.CTkLabel(self, text="🚪 Check-out", font=("Arial", 18, "bold"))
         label.pack(anchor="w", padx=15, pady=(15, 5))
 
         self.room_var = ctk.StringVar(value="-")

@@ -12,10 +12,16 @@ class LoginScreen(ctk.CTkFrame):
 
         login_title = ctk.CTkLabel(
             self,
-            text="Login do Administrador",
-            font=("Arial", 24, "bold"),
+            text="Sistema de Gestão da Pousada",
+            font=("Arial", 28, "bold"),
         )
         login_title.pack(pady=(80, 20))
+
+        subtitle = ctk.CTkLabel(
+            self, text="🏨 Acesso Administrativo",
+            font=("Arial", 20)
+            )
+        subtitle.pack(pady=(0,20))
 
         self.username_entry = ctk.CTkEntry(self, placeholder_text="Usuário")
         self.username_entry.pack(pady=10)
@@ -23,7 +29,7 @@ class LoginScreen(ctk.CTkFrame):
         self.password_entry = ctk.CTkEntry(self, placeholder_text="Senha", show="*")
         self.password_entry.pack(pady=10)
 
-        login_button = ctk.CTkButton(self, text="Entrar", command=self.validate_login)
+        login_button = ctk.CTkButton(self, text="Entrar", height = 40, corner_radius=10, command=self.validate_login)
         login_button.pack(pady=10)
 
         self.login_feedback_label = ctk.CTkLabel(self, text="")
