@@ -21,7 +21,7 @@ class ConsumptionWindow(ctk.CTkToplevel):
         header = ctk.CTkFrame(self)
         header.pack(fill="x", padx=20, pady=(20, 10))
 
-        title = ctk.CTkLabel(header, text="Cadastro de insumos", font=("Arial", 18, "bold"))
+        title = ctk.CTkLabel(header, text="🍔 Cadastro de insumos", font=("Arial", 18, "bold"))
         title.pack(side="left")
 
         new_button = ctk.CTkButton(header, text="Novo", command=self._clear_form)
@@ -30,10 +30,10 @@ class ConsumptionWindow(ctk.CTkToplevel):
         form = ctk.CTkFrame(self)
         form.pack(fill="x", padx=20, pady=(0, 10))
 
-        self.name_entry = ctk.CTkEntry(form, placeholder_text="Nome do insumo")
+        self.name_entry = ctk.CTkEntry(form, placeholder_text="🍽️ Nome do insumo")
         self.name_entry.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
-        self.price_entry = ctk.CTkEntry(form, placeholder_text="Valor (ex: 9.50)")
+        self.price_entry = ctk.CTkEntry(form, placeholder_text="💰 Valor (ex: 9.50)")
         self.price_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
         form.grid_columnconfigure(0, weight=1)
@@ -56,9 +56,9 @@ class ConsumptionWindow(ctk.CTkToplevel):
             columns=("id", "nome", "valor"),
             show="headings",
         )
-        self.table.heading("id", text="ID")
-        self.table.heading("nome", text="Nome")
-        self.table.heading("valor", text="Valor")
+        self.table.heading("id", text="🆔 ID")
+        self.table.heading("nome", text="🍽️ Nome")
+        self.table.heading("valor", text="💰 Valor")
         self.table.column("id", width=50, anchor="center")
         self.table.column("nome", width=220)
         self.table.column("valor", width=120, anchor="center")

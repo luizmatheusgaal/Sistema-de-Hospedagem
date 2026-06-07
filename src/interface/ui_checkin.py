@@ -6,13 +6,13 @@ class CheckinFrame(ctk.CTkFrame):
         super().__init__(master)
         self.on_check_in = on_check_in
 
-        label = ctk.CTkLabel(self, text="Check-in", font=("Arial", 18, "bold"))
+        label = ctk.CTkLabel(self, text="🏨 Check-in", font=("Arial", 18, "bold"))
         label.pack(anchor="w", padx=15, pady=(15, 5))
 
-        self.guest_name_entry = ctk.CTkEntry(self, placeholder_text="Nome do hóspede")
+        self.guest_name_entry = ctk.CTkEntry(self, placeholder_text="👤 Nome do hóspede")
         self.guest_name_entry.pack(fill="x", padx=15, pady=5)
 
-        self.stay_days_entry = ctk.CTkEntry(self, placeholder_text="Dias de estadia")
+        self.stay_days_entry = ctk.CTkEntry(self, placeholder_text="📅 Dias de estadia")
         self.stay_days_entry.pack(fill="x", padx=15, pady=5)
 
         self.room_var = ctk.StringVar(value="-")
