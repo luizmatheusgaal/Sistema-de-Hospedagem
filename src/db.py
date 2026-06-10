@@ -82,7 +82,8 @@ class DatabaseManager:
                     checkout DATETIME NOT NULL,
                     consumo DECIMAL(10, 2) NOT NULL,
                     total DECIMAL(10, 2) NOT NULL,
-                    reserva VARCHAR(20) NOT NULL
+                    reserva VARCHAR(20) NOT NULL,
+                    FOREING KEY (quarto_id) REFERENCES quartos(id)
                 )
                 """
             )
