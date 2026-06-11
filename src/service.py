@@ -10,7 +10,7 @@ load_dotenv()
 
 class LodgingService:
     def __init__(self):
-        self.rooms = [101 + i for i in range(int(os.getenv("LIMITE_QUARTOS", "10")))]
+        self.rooms = []
         self.occupied = {}
         self.history = []
         self.daily_revenue = 0.0
